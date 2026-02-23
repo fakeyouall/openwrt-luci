@@ -1,13 +1,16 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: PACKAGE VERSION\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-02-15 08:21+0000\n"
+"Last-Translator: Hyeonjeong Lee <h9101654@gmail.com>\n"
+"Language-Team: Korean <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationssnmpd/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:260
 msgid "A group maps com2sec names to access names"
@@ -15,11 +18,11 @@ msgstr ""
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:479
 msgid "AES"
-msgstr ""
+msgstr "AES"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:366
 msgid "Access Control"
-msgstr ""
+msgstr "접근 제어"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:367
 msgid "Access restriction to readonly or Read/Write"
@@ -27,11 +30,11 @@ msgstr ""
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/download.js:61
 msgid "Actions"
-msgstr ""
+msgstr "작업"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:634
 msgid "Advanced Settings"
-msgstr ""
+msgstr "고급 설정"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:150
 msgid "AgentX socket path"
@@ -41,7 +44,7 @@ msgstr ""
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:337
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:346
 msgid "All"
-msgstr ""
+msgstr "전체"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:453
 msgid "Allow write"
@@ -57,7 +60,7 @@ msgstr ""
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:312
 msgid "Authentication"
-msgstr ""
+msgstr "인증"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:313
 msgid "Authentication and encryption"
@@ -104,10 +107,10 @@ msgstr ""
 msgid "DES"
 msgstr ""
 
-#: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/download.js:73
+#: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/download.js:72
 #: applications/luci-app-snmpd/root/usr/share/luci/menu.d/luci-app-snmpd.json:28
 msgid "Download"
-msgstr ""
+msgstr "다운로드"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/download.js:65
 msgid "Download Area"
@@ -139,16 +142,16 @@ msgstr ""
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:630
 msgid "General"
-msgstr ""
+msgstr "일반"
 
 #: applications/luci-app-snmpd/root/usr/share/rpcd/acl.d/luci-app-snmpd.json:3
 msgid "Grant UCI access for luci-app-snmpd"
-msgstr ""
+msgstr "luci-app-snmpd의 UCI 접근 권한 부여"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:259
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:289
 msgid "Group"
-msgstr ""
+msgstr "그룹"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:563
 msgid "Here you can configure Logging settings"
@@ -192,7 +195,7 @@ msgstr ""
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:63
 msgid "IPv4 and IPv6"
-msgstr ""
+msgstr "IPv4 및 IPv6"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:309
 msgid "Level"
@@ -204,11 +207,11 @@ msgstr ""
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:215
 msgid "Location"
-msgstr ""
+msgstr "위치"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:656
 msgid "Logging"
-msgstr ""
+msgstr "로그 기록"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:461
 msgid "MD5"
@@ -216,26 +219,26 @@ msgstr ""
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:203
 msgid "Name"
-msgstr ""
+msgstr "이름"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:410
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:496
 msgid "No"
-msgstr ""
+msgstr "아니요"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:311
 msgid "No authentication"
-msgstr ""
+msgstr "인증 없음"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:329
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:338
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:347
 msgid "None"
-msgstr ""
+msgstr "없음"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:344
 msgid "Notify"
-msgstr ""
+msgstr "알림"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:345
 msgid "Notify access modification for groups"
@@ -278,7 +281,7 @@ msgstr ""
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:95
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:534
 msgid "Port"
-msgstr ""
+msgstr "포트"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:318
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:321
@@ -421,7 +424,7 @@ msgstr ""
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:604
 msgid "Syslog facility"
-msgstr ""
+msgstr "시스로그 시설"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:204
 msgid "System Name"
@@ -466,12 +469,12 @@ msgstr ""
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:549
 msgid "Type"
-msgstr ""
+msgstr "유형"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:264
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:298
 msgid "Version"
-msgstr ""
+msgstr "버전"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:585
 msgid "Will log messages of selected priority and above."
@@ -488,7 +491,7 @@ msgstr ""
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:411
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:497
 msgid "Yes"
-msgstr ""
+msgstr "예"
 
 #: applications/luci-app-snmpd/htdocs/luci-static/resources/view/snmpd/snmpd.js:390
 msgid "any (default)"

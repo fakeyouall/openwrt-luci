@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2025-01-20 10:51+0000\n"
-"Last-Translator: Meow <sander.schutten@gmail.com>\n"
+"PO-Revision-Date: 2026-01-10 04:39+0000\n"
+"Last-Translator: Marco Otto <marco.otto@tuta.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsfrps/nl/>\n"
 "Language: nl\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:15
 msgid "Additional configs"
@@ -18,11 +18,11 @@ msgstr "Additionele configuraties"
 
 #: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:47
 msgid "Additional settings"
-msgstr ""
+msgstr "Aanvullende instellingen"
 
 #: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:44
 msgid "Allow ports"
-msgstr ""
+msgstr "Poorten toestaan"
 
 #: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:44
 msgid ""
@@ -83,11 +83,11 @@ msgid ""
 "value is 0."
 msgstr ""
 
-#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:147
+#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:145
 msgid "Collecting data ..."
 msgstr ""
 
-#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:155
+#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:153
 msgid "Common settings"
 msgstr ""
 
@@ -262,14 +262,12 @@ msgid ""
 "this value is 0."
 msgstr ""
 
-#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:122
+#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:120
 msgid "NOT RUNNING"
 msgstr ""
 
 #: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:14
-msgid ""
-"OS environments pass to frp for config file template, see <a href=\"https://"
-"github.com/fatedier/frp#configuration-file-template\">frp README</a>"
+msgid "OS environments pass to frp for config file template, see %s"
 msgstr ""
 
 #: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:24
@@ -286,7 +284,7 @@ msgstr ""
 msgid "QUIC bind port"
 msgstr ""
 
-#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:120
+#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:118
 msgid "RUNNING"
 msgstr ""
 
@@ -302,8 +300,8 @@ msgstr ""
 msgid "Run daemon as user"
 msgstr ""
 
-#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:156
-#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:160
+#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:154
+#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:158
 msgid "Startup settings"
 msgstr ""
 
@@ -383,9 +381,9 @@ msgid ""
 "<br />By default, this value is 0."
 msgstr ""
 
+#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:118
 #: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:120
-#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:122
-#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:132
+#: applications/luci-app-frps/htdocs/luci-static/resources/view/frps.js:130
 #: applications/luci-app-frps/root/usr/share/luci/menu.d/luci-app-frps.json:3
 msgid "frp Server"
 msgstr ""

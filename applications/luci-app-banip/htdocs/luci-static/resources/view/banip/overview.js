@@ -30,127 +30,86 @@ return view.extend({
 			L.resolveDefault(fs.read_direct('/etc/banip/banip.custom.feeds'), ''),
 			L.resolveDefault(fs.read_direct('/etc/banip/banip.feeds'), ''),
 			L.resolveDefault(fs.read_direct('/etc/banip/banip.countries'), ''),
-			uci.load('banip')
+			uci.load('banip').catch(() => 0)
 		]);
 	},
 
 	render: function (result) {
-		let m, s, o;
+		/*
+			config check
+		*/
+		if (!result[3] || result[3].length === 0) {
+			ui.addNotification(null, E('p', _('No banIP config found!')), 'error');
+			return;
+		}
 
+		let m, s, o;
 		m = new form.Map('banip', 'banIP', _('Configuration of the banIP package to ban incoming and outgoing IPs via named nftables Sets. \
-			For further information please check the <a style="color:#37c;font-weight:bold;" href="https://github.com/openwrt/packages/blob/master/net/banip/files/README.md" target="_blank" rel="noreferrer noopener" >online documentation</a>'));
+			For further information please check the %s.'.format(`<a style="color:#37c;font-weight:bold;" href="https://github.com/openwrt/packages/blob/master/net/banip/files/README.md" target="_blank" rel="noreferrer noopener" >${_('online documentation')}</a>`)));
+
+		/*
+			set text content helper function
+		*/
+		const setText = (id, value) => {
+			const el = document.getElementById(id);
+			if (el) {
+				el.textContent = value || '-';
+			}
+		};
 
 		/*
 			poll runtime information
 		*/
-		let buttons, rtRes, infStat, infVer, infElements, infFeeds, infDevices, infUplink, infSys, infNft, infRun, infFlags, infLast
-
-		pollData: poll.add(function () {
-			return L.resolveDefault(fs.stat('/var/run/banip.lock')).then(function (stat) {
-				buttons = document.querySelectorAll('.cbi-button');
-				infStat = document.getElementById('status');
-				if (stat) {
-					for (let i = 0; i < buttons.length; i++) {
-						buttons[i].setAttribute('disabled', 'true');
+		poll.add(function () {
+			return L.resolveDefault(fs.read_direct('/var/run/banip_runtime.json'), 'null').then(function (res) {
+				const status = document.getElementById('status');
+				const buttons = document.querySelectorAll('.cbi-page-actions button');
+				try {
+					var info = JSON.parse(res);
+				} catch (e) {
+					status.textContent = '-';
+					if (status.classList.contains('spinning')) {
+						buttons.forEach(function (btn) {
+							btn.disabled = false;
+						})
+						status.classList.remove('spinning');
 					}
-					if (infStat && !infStat.classList.contains('spinning')) {
-						infStat.classList.add('spinning');
-					}
-				} else {
-					for (let i = 0; i < buttons.length; i++) {
-						buttons[i].removeAttribute('disabled');
-					}
-					if (infStat && infStat.classList.contains('spinning')) {
-						infStat.classList.remove('spinning');
+					ui.addNotification(null, E('p', _('Unable to parse the runtime information!')), 'error');
+					return;
+				}
+				if (status && info) {
+					status.textContent = `${info.status || '-'} (frontend: ${info.frontend_ver || '-'} / backend: ${info.backend_ver || '-'})`;
+					if (info.status === "processing") {
+						if (!status.classList.contains("spinning")) {
+							status.classList.add("spinning");
+						}
+						buttons.forEach(function (btn) {
+							btn.disabled = true;
+							btn.blur();
+						})
+					} else {
+						if (status.classList.contains("spinning")) {
+							buttons.forEach(function (btn) {
+								btn.disabled = false;
+							})
+							status.classList.remove("spinning");
+						}
 					}
 				}
-				L.resolveDefault(fs.exec_direct('/etc/init.d/banip', ['status'])).then(function (result) {
-					if (result) {
-						rtRes = result.trim().split('\n');
-						if (rtRes) {
-							for (let i = 0; i < rtRes.length; i++) {
-								if (rtRes[i].match(/^\s+\+\sstatus\s+\:\s+(.*)$/)) {
-									rtRes.status = rtRes[i].match(/^\s+\+\sstatus\s+\:\s+(.*)$/)[1];
-								} else if (rtRes[i].match(/^\s+\+\sversion\s+\:\s+(.*)$/)) {
-									rtRes.version = rtRes[i].match(/^\s+\+\sversion\s+\:\s+(.*)$/)[1];
-								} else if (rtRes[i].match(/^\s+\+\selement_count\s+\:\s+(.*)$/)) {
-									rtRes.elementCount = rtRes[i].match(/^\s+\+\selement_count\s+\:\s+(.*)$/)[1];
-								} else if (rtRes[i].match(/^\s+\+\sactive_feeds\s+\:\s+(.*)$/)) {
-									rtRes.activeFeeds = rtRes[i].match(/^\s+\+\sactive_feeds\s+\:\s+(.*)$/)[1];
-								} else if (rtRes[i].match(/^\s+\+\sactive_devices\s+\:\s+(.*)$/)) {
-									rtRes.activeDevices = rtRes[i].match(/^\s+\+\sactive_devices\s+\:\s+(.*)$/)[1];
-								} else if (rtRes[i].match(/^\s+\+\sactive_uplink\s+\:\s+(.*)$/)) {
-									rtRes.activeUplink = rtRes[i].match(/^\s+\+\sactive_uplink\s+\:\s+(.*)$/)[1];
-								} else if (rtRes[i].match(/^\s+\+\snft_info\s+\:\s+(.*)$/)) {
-									rtRes.nftInfo = rtRes[i].match(/^\s+\+\snft_info\s+\:\s+(.*)$/)[1];
-								} else if (rtRes[i].match(/^\s+\+\srun_info\s+\:\s+(.*)$/)) {
-									rtRes.runInfo = rtRes[i].match(/^\s+\+\srun_info\s+\:\s+(.*)$/)[1];
-								} else if (rtRes[i].match(/^\s+\+\srun_flags\s+\:\s+(.*)$/)) {
-									rtRes.runFlags = rtRes[i].match(/^\s+\+\srun_flags\s+\:\s+(.*)$/)[1];
-								} else if (rtRes[i].match(/^\s+\+\slast_run\s+\:\s+(.*)$/)) {
-									rtRes.lastRun = rtRes[i].match(/^\s+\+\slast_run\s+\:\s+(.*)$/)[1];
-								} else if (rtRes[i].match(/^\s+\+\ssystem_info\s+\:\s+(.*)$/)) {
-									rtRes.sysInfo = rtRes[i].match(/^\s+\+\ssystem_info\s+\:\s+(.*)$/)[1];
-								}
-							}
-						}
-						if (rtRes) {
-							infStat = document.getElementById('status');
-							if (infStat) {
-								infStat.textContent = rtRes.status || '-';
-							}
-							infVer = document.getElementById('version');
-							if (infVer) {
-								infVer.textContent = rtRes.version || '-';
-							}
-							infElements = document.getElementById('elements');
-							if (infElements) {
-								infElements.textContent = rtRes.elementCount || '-';
-							}
-							infFeeds = document.getElementById('feeds');
-							if (infFeeds) {
-								infFeeds.textContent = rtRes.activeFeeds || '-';
-							}
-							infDevices = document.getElementById('devices');
-							if (infDevices) {
-								infDevices.textContent = rtRes.activeDevices || '-';
-							}
-							infUplink = document.getElementById('uplink');
-							if (infUplink) {
-								infUplink.textContent = rtRes.activeUplink || '-';
-							}
-							infNft = document.getElementById('nft');
-							if (infNft) {
-								infNft.textContent = rtRes.nftInfo || '-';
-							}
-							infRun = document.getElementById('run');
-							if (infRun) {
-								infRun.textContent = rtRes.runInfo || '-';
-							}
-							infFlags = document.getElementById('flags');
-							if (infFlags) {
-								infFlags.textContent = rtRes.runFlags || '-';
-							}
-							infLast = document.getElementById('last');
-							if (infLast) {
-								infLast.textContent = rtRes.lastRun || '-';
-							}
-							infSys = document.getElementById('sys');
-							if (infSys) {
-								infSys.textContent = rtRes.sysInfo || '-';
-							}
-						}
-					} else {
-						infStat = document.getElementById('status');
-						if (infStat) {
-							infStat.textContent = '-';
-							poll.stop();
-							if (infStat.classList.contains('spinning')) {
-								infStat.classList.remove('spinning');
-							}
-						}
-					}
-				});
+				if (info) {
+					setText('elements', info.element_count);
+					setText('feeds', info.active_feeds?.join(', '));
+					setText('devices', `wan-dev: ${info.wan_devices?.join(', ') || '-'} /
+							wan-if: ${info.wan_interfaces?.join(', ') || '-'} /
+							vlan-allow: ${info.vlan_allow?.join(', ') || '-'} /
+							vlan-block: ${info.vlan_block?.join(', ') || '-'}`);
+					setText('uplink', info.active_uplink?.join(', ') || '-');
+					setText('nft', info.nft_info);
+					setText('run', info.run_info);
+					setText('flags', info.run_flags);
+					setText('last', info.last_run);
+					setText('sys', info.system_info);
+				}
 			});
 		}, 2);
 
@@ -164,10 +123,6 @@ return view.extend({
 				E('div', { 'class': 'cbi-value' }, [
 					E('label', { 'class': 'cbi-value-title', 'style': 'margin-bottom:-5px;padding-top:0rem;' }, _('Status')),
 					E('div', { 'class': 'cbi-value-field spinning', 'id': 'status', 'style': 'margin-bottom:-5px;color:#37c;' }, '\xa0')
-				]),
-				E('div', { 'class': 'cbi-value' }, [
-					E('label', { 'class': 'cbi-value-title', 'style': 'margin-bottom:-5px;padding-top:0rem;' }, _('Version')),
-					E('div', { 'class': 'cbi-value-field', 'id': 'version', 'style': 'margin-bottom:-5px;color:#37c;' }, '-')
 				]),
 				E('div', { 'class': 'cbi-value' }, [
 					E('label', { 'class': 'cbi-value-title', 'style': 'margin-bottom:-5px;padding-top:0rem;' }, _('Element Count')),
@@ -207,7 +162,6 @@ return view.extend({
 				])
 			]);
 		}, o, this);
-		this.pollData;
 
 		/*
 			tabbed config section
@@ -399,7 +353,7 @@ return view.extend({
 		o.optional = true;
 		o.rmempty = true;
 
-		o = s.taboption('adv_chain', form.Value, 'ban_allowflag', _('Allow Protocol/Ports'), _('Always allow a protocol \(tcp/udp\) with certain ports or port ranges in WAN-Input and WAN-Forward chain.'));
+		o = s.taboption('adv_chain', form.Value, 'ban_allowflag', _('Allow Protocol/Ports'), _('Always allow a protocol (tcp/udp) with certain ports or port ranges in WAN-Input and WAN-Forward chain.'));
 		o.placeholder = 'tcp 80 443-445';
 		o.rmempty = true;
 
@@ -412,6 +366,10 @@ return view.extend({
 		o = s.taboption('adv_chain', widgets.DeviceSelect, 'ban_vlanblock', _('Block VLAN Forwards'), _('Always block certain VLAN forwards.'));
 		o.multiple = true;
 		o.nocreate = true;
+		o.optional = true;
+		o.rmempty = true;
+
+		o = s.taboption('adv_chain', form.Flag, 'ban_bcp38', _('Enable BCP38'), _('Block packets with spoofed source IP addresses in all supported chains.'));
 		o.optional = true;
 		o.rmempty = true;
 
@@ -478,8 +436,7 @@ return view.extend({
 		o.value('1');
 		o.value('3');
 		o.value('5');
-		o.value('10');
-		o.default = '5';
+		o.default = '3';
 		o.placeholder = _('-- default --');
 		o.create = true;
 		o.optional = true;
@@ -502,31 +459,34 @@ return view.extend({
 		o.optional = true;
 		o.rmempty = true;
 
-		let feed, feeds, chain, descr;
-		if (result && Object.keys(result).length) {
-			if (result[0]) {
-				try {
-					feeds = JSON.parse(result[0]);
-				} catch (e) {
-					ui.addNotification(null, E('p', _('Unable to parse the custom feed file!')), 'error');
-				}
-			}
-			if (result[1] && (!feeds || (feeds && !Object.keys(feeds).length))) {
-				try {
-					feeds = JSON.parse(result[1]);
-				} catch (e) {
-					ui.addNotification(null, E('p', _('Unable to parse the default feed file!')), 'error');
-				}
+		/*
+			feed parsing
+		*/
+		let feed, chain, descr;
+		let feeds = null;
+		if (result[0] && result[0].trim() !== "") {
+			try {
+				feeds = JSON.parse(result[0]);
+			} catch (e) {
+				ui.addNotification(null, E('p', _('Unable to parse the custom feed file!')), 'error');
 			}
 		}
+		if (!feeds && result[1] && result[1].trim() !== "") {
+			try {
+				feeds = JSON.parse(result[1]);
+			} catch (e) {
+				ui.addNotification(null, E('p', _('Unable to parse the default feed file!')), 'error');
+			}
+		}
+
 		if (feeds && Object.keys(feeds).length) {
+
+			const feedKeys = Object.keys(feeds);
+
 			o = s.taboption('adv_set', form.MultiValue, 'ban_feedin', _('Inbound Feed'), _('Override the default feed configuration and apply the feed to the inbound chain only.'));
 			o.value('allowlist', _('local allowlist'));
 			o.value('blocklist', _('local blocklist'));
-			for (let i = 0; i < Object.keys(feeds).length; i++) {
-				feed = Object.keys(feeds)[i].trim();
-				o.value(feed);
-			}
+			feedKeys.forEach(f => o.value(f.trim()));
 			o.placeholder = _('-- default --');
 			o.optional = true;
 			o.rmempty = true;
@@ -534,10 +494,7 @@ return view.extend({
 			o = s.taboption('adv_set', form.MultiValue, 'ban_feedout', _('Outbound Feed'), _('Override the default feed configuration and apply the feed to the outbound chain only.'));
 			o.value('allowlist', _('local allowlist'));
 			o.value('blocklist', _('local blocklist'));
-			for (let i = 0; i < Object.keys(feeds).length; i++) {
-				feed = Object.keys(feeds)[i].trim();
-				o.value(feed);
-			}
+			feedKeys.forEach(f => o.value(f.trim()));
 			o.placeholder = _('-- default --');
 			o.optional = true;
 			o.rmempty = true;
@@ -545,10 +502,7 @@ return view.extend({
 			o = s.taboption('adv_set', form.MultiValue, 'ban_feedinout', _('Inbound & Outbound Feed'), _('Override the default feed configuration and apply the feed to the inbound and outbound chain.'));
 			o.value('allowlist', _('local allowlist'));
 			o.value('blocklist', _('local blocklist'));
-			for (let i = 0; i < Object.keys(feeds).length; i++) {
-				feed = Object.keys(feeds)[i].trim();
-				o.value(feed);
-			}
+			feedKeys.forEach(f => o.value(f.trim()));
 			o.placeholder = _('-- default --');
 			o.optional = true;
 			o.rmempty = true;
@@ -556,10 +510,7 @@ return view.extend({
 			o = s.taboption('adv_set', form.MultiValue, 'ban_feedfreset', _('Feed Flag Reset'), _('Override the default feed configuration and remove existing port/protocol limitations.'));
 			o.value('allowlist', _('local allowlist'));
 			o.value('blocklist', _('local blocklist'));
-			for (let i = 0; i < Object.keys(feeds).length; i++) {
-				feed = Object.keys(feeds)[i].trim();
-				o.value(feed);
-			}
+			feedKeys.forEach(f => o.value(f.trim()));
 			o.placeholder = _('-- default --');
 			o.optional = true;
 			o.rmempty = true;
@@ -567,10 +518,7 @@ return view.extend({
 			o = s.taboption('adv_set', form.MultiValue, 'ban_feedcomplete', _('Feed Complete'), _('Opt out specific feeds from the deduplication process.'));
 			o.value('allowlist', _('local allowlist'));
 			o.value('blocklist', _('local blocklist'));
-			for (let i = 0; i < Object.keys(feeds).length; i++) {
-				feed = Object.keys(feeds)[i].trim();
-				o.value(feed);
-			}
+			feedKeys.forEach(f => o.value(f.trim()));
 			o.placeholder = _('-- default --');
 			o.optional = true;
 			o.rmempty = true;
@@ -655,7 +603,7 @@ return view.extend({
 			if (!value) {
 				return _('Empty field not allowed');
 			}
-			if (!value.match(/^[A-Za-z0-9\.\:]+$/)) {
+			if (!value.match(/^[A-Za-z0-9.:]+$/)) {
 				return _('Invalid characters');
 			}
 			return true;
@@ -703,9 +651,9 @@ return view.extend({
 		if (feeds && Object.keys(feeds).length) {
 			o = s.taboption('feeds', form.MultiValue, 'ban_feed', _('Blocklist Feed'));
 			for (let i = 0; i < Object.keys(feeds).length; i++) {
-				feed=(Object.keys(feeds)[i] || '').trim();
-				chain=(feeds[feed]?.chain ||'in').trim();
-				descr=(feeds[feed]?.descr || '-').trim();
+				feed = (Object.keys(feeds)[i] || '').trim();
+				chain = (feeds[feed]?.chain || 'in').trim();
+				descr = (feeds[feed]?.descr || '-').trim();
 				o.value(feed, feed + ' (' + chain + ', ' + descr + ')');
 			}
 			o.placeholder = _('-- Please choose (optional) --');
@@ -718,7 +666,7 @@ return view.extend({
 		o.default = '<hr style="width: 200px; height: 1px;" /><em style="color:#37c;font-weight:bold;">' + _('Country Selection') + '</em>';
 
 		let err, ccode, rir, country, countries = [];
-		if (result && Object.keys(result[2]).length) {
+		if (result[2] && result[2].trim() !== "") {
 			countries = result[2].trim().split('\n');
 			if (countries && countries.length) {
 				o = s.taboption('feeds', form.MultiValue, 'ban_country', _('Countries') + ' (<abbr title="Regional Internet Registries">RIR</abbr>)');
@@ -791,8 +739,8 @@ return view.extend({
 				if (!value) {
 					return true;
 				}
-				if (!value.match(/^(http:\/\/|https:\/\/)[A-Za-z0-9\/\.\-_\?\&\+=:~#]+$/)) {
-					return _('Protocol/URL format not supported');
+				if (!value.match(/^(https?:\/\/)[A-Za-z0-9-]+\.[A-Za-z0-9.-]+(:[0-9]+)?(\/[A-Za-z0-9._\-?&+=:~#%]*)?$/)) {
+					return _('Invalid URL format');
 				}
 				return true;
 			}
@@ -826,16 +774,28 @@ return view.extend({
 		o.optional = true;
 		o.rmempty = true;
 
-		o = s.taboption('feeds', form.ListValue, 'ban_nftexpiry', _('Blocklist Set Expiry'), _('Expiry time for auto added blocklist Set members.'));
+		o = s.taboption('feeds', form.Value, 'ban_nftexpiry', _('Blocklist Set Expiry'), _('Expiry time for auto added blocklist Set members.'));
+		o.value('30ms');
 		o.value('10s');
 		o.value('1m');
 		o.value('5m');
 		o.value('1h');
 		o.value('2h');
 		o.value('1d');
+		o.value('7d');
+		o.value('2w');
 		o.placeholder = _('-- default --');
 		o.optional = true;
 		o.rmempty = true;
+		o.validate = function (section_id, value) {
+			if (!value) {
+				return true;
+			}
+			if (!value.match(/^[1-9][0-9]*(ms|s|m|h|d|w)$/)) {
+				return _('Invalid expiry format');
+			}
+			return true;
+		};
 
 		o = s.taboption('feeds', form.Flag, 'ban_allowlistonly', _('Allowlist Only'), _('Restrict the internet access from/to a small number of secure IPs.'));
 		o.rmempty = false;
