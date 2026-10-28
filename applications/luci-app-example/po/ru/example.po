@@ -1,8 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2024-01-19 22:40+0000\n"
-"Last-Translator: st7105 <st7105@gmail.com>\n"
+"PO-Revision-Date: 2026-04-24 00:23+0000\n"
+"Last-Translator: SnIPeRSnIPeR <snipersniper@users.noreply.hosted.weblate.org>"
+"\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsexample/ru/>\n"
 "Language: ru\n"
@@ -11,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 
 #: applications/luci-app-example/htdocs/luci-static/resources/view/example/form.js:38
 msgid "A boolean option"
@@ -20,6 +21,14 @@ msgstr "Булевая опция"
 #: applications/luci-app-example/htdocs/luci-static/resources/view/example/form.js:43
 msgid "A select option"
 msgstr "Выбор параметра"
+
+#: applications/luci-app-example/htdocs/luci-static/resources/view/example/file-jsonmap.js:46
+msgid "Animals"
+msgstr ""
+
+#: applications/luci-app-example/htdocs/luci-static/resources/view/example/file-jsonmap.js:58
+msgid "Cat"
+msgstr ""
 
 #: applications/luci-app-example/htdocs/luci-static/resources/view/example/rpc.js:55
 msgid "Cats"
@@ -33,6 +42,10 @@ msgstr "Описание для данного раздела таблиц"
 msgid "Description for this typed section"
 msgstr "Описание для этого раздела"
 
+#: applications/luci-app-example/htdocs/luci-static/resources/view/example/file-jsonmap.js:59
+msgid "Dog"
+msgstr ""
+
 #: applications/luci-app-example/htdocs/luci-static/resources/view/example/rpc.js:56
 msgid "Dogs"
 msgstr "Собаки"
@@ -40,6 +53,10 @@ msgstr "Собаки"
 #: applications/luci-app-example/htdocs/luci-static/resources/view/example/form.js:55
 msgid "Dynamic list option"
 msgstr "Опция динамического списка"
+
+#: applications/luci-app-example/htdocs/luci-static/resources/view/example/file-jsonmap.js:44
+msgid "Edits %s; changes are written back on Save."
+msgstr ""
 
 #: applications/luci-app-example/root/usr/share/luci/menu.d/luci-app-example.json:3
 msgid "Example"
@@ -57,6 +74,14 @@ msgstr "Пример конфигурации формы."
 msgid "Example HTML Page"
 msgstr "Пример HTML-страницы"
 
+#: applications/luci-app-example/root/usr/share/luci/menu.d/luci-app-example.json:59
+msgid "File JSONMap Example"
+msgstr ""
+
+#: applications/luci-app-example/htdocs/luci-static/resources/view/example/file-jsonmap.js:44
+msgid "File JSONMap Sample"
+msgstr ""
+
 #: applications/luci-app-example/htdocs/luci-static/resources/view/example/form.js:31
 msgid "First Option"
 msgstr "Первая опция"
@@ -71,7 +96,7 @@ msgstr "Вид формы"
 
 #: applications/luci-app-example/root/usr/share/rpcd/acl.d/luci-app-example.json:3
 msgid "Grant UCI and RPC access to LuCI app example"
-msgstr "Предоставьте доступ UCI и RPC к примеру приложения LuCI"
+msgstr "Предоставить доступ к UCI и RPC для LuCI-приложения example"
 
 #: applications/luci-app-example/root/usr/share/luci/menu.d/luci-app-example.json:23
 msgid "HTML Page"
@@ -101,6 +126,10 @@ msgstr "JSONMap TableSection пример"
 msgid "JSONMap TypedSection Sample"
 msgstr "JSONMap TypedSection пример"
 
+#: applications/luci-app-example/htdocs/luci-static/resources/view/example/file-jsonmap.js:55
+msgid "Name"
+msgstr ""
+
 #: applications/luci-app-example/htdocs/luci-static/resources/view/example/rpc.js:59
 msgid "No"
 msgstr "Нет"
@@ -108,6 +137,14 @@ msgstr "Нет"
 #: applications/luci-app-example/htdocs/luci-static/resources/view/example/rpc.js:86
 msgid "Not found"
 msgstr "Не найдено"
+
+#: applications/luci-app-example/htdocs/luci-static/resources/view/example/file-jsonmap.js:47
+msgid "Number of cats"
+msgstr ""
+
+#: applications/luci-app-example/htdocs/luci-static/resources/view/example/file-jsonmap.js:49
+msgid "Number of dogs"
+msgstr ""
 
 #: applications/luci-app-example/htdocs/luci-static/resources/view/example/rpc-jsonmap-tablesection.js:73
 #: applications/luci-app-example/htdocs/luci-static/resources/view/example/rpc-jsonmap-typedsection.js:73
@@ -119,6 +156,10 @@ msgstr "Название опции"
 msgid "Option value"
 msgstr "Значение опции"
 
+#: applications/luci-app-example/htdocs/luci-static/resources/view/example/file-jsonmap.js:60
+msgid "Parakeet"
+msgstr ""
+
 #: applications/luci-app-example/htdocs/luci-static/resources/view/example/rpc.js:57
 msgid "Parakeets"
 msgstr "Попугаи"
@@ -126,6 +167,10 @@ msgstr "Попугаи"
 #: applications/luci-app-example/htdocs/luci-static/resources/view/example/form.js:52
 msgid "Password Option"
 msgstr "Параметр пароля"
+
+#: applications/luci-app-example/htdocs/luci-static/resources/view/example/file-jsonmap.js:52
+msgid "Pets"
+msgstr ""
 
 #: applications/luci-app-example/root/usr/share/luci/menu.d/luci-app-example.json:32
 msgid "RPC Array Example"
@@ -162,6 +207,10 @@ msgstr "Выберите опцию"
 #: applications/luci-app-example/htdocs/luci-static/resources/view/example/rpc.js:58
 msgid "Should be \"Not found\""
 msgstr "Должно быть \"Не найдено\""
+
+#: applications/luci-app-example/htdocs/luci-static/resources/view/example/file-jsonmap.js:57
+msgid "Species"
+msgstr ""
 
 #: applications/luci-app-example/htdocs/luci-static/resources/view/example/rpc.js:59
 msgid "Yes"

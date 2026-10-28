@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: luci-app-radicale 3\n"
-"PO-Revision-Date: 2026-01-20 07:03+0000\n"
-"Last-Translator: Nicolas Aigner <nicolas.aigner@gmail.com>\n"
+"PO-Revision-Date: 2026-09-29 12:46+0000\n"
+"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "openwrt/luciapplicationsradicale3/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:288
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:298
@@ -35,9 +35,13 @@ msgstr "ARGON2"
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:90
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:183
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:377
-#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:465
+#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:468
 msgid "Advanced"
 msgstr "Avançada"
+
+#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:463
+msgid "Alert"
+msgstr ""
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:117
 msgid "Allowed Ciphers"
@@ -54,7 +58,7 @@ msgstr ""
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:174
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:224
 msgid "BCRYPT"
-msgstr ""
+msgstr "BCRYPT"
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:411
 msgid "Based on settings in 'Rights File'"
@@ -62,7 +66,7 @@ msgstr ""
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:433
 msgid "CORS"
-msgstr ""
+msgstr "CORS"
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:99
 msgid "Certificate"
@@ -80,11 +84,11 @@ msgstr ""
 msgid "Confirm Plaintext Password"
 msgstr ""
 
-#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:460
+#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:462
 msgid "Critical"
 msgstr ""
 
-#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:456
+#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:457
 msgid "Debug"
 msgstr "Depuração (Debug)"
 
@@ -106,10 +110,6 @@ msgstr ""
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:386
 msgid "Delete sync tokens that are older (seconds)"
-msgstr ""
-
-#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:467
-msgid "Do not filter debug messages starting with 'TRACE'"
 msgstr ""
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:437
@@ -140,7 +140,7 @@ msgstr ""
 msgid "Encryption method when changing this password"
 msgstr ""
 
-#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:459
+#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:461
 msgid "Error"
 msgstr "Erro"
 
@@ -186,7 +186,7 @@ msgstr ""
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:391
 msgid "Hook"
-msgstr ""
+msgstr "Gancho"
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:85
 msgid "Host:port"
@@ -200,7 +200,7 @@ msgid ""
 "of hash listed above)."
 msgstr ""
 
-#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:457
+#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:458
 msgid "Info"
 msgstr "Informação (Info)"
 
@@ -210,12 +210,12 @@ msgstr ""
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:448
 msgid "Logging"
-msgstr ""
+msgstr "Registros do sistema"
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:170
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:220
 msgid "MD5-APR1"
-msgstr ""
+msgstr "MD5-APR1"
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:83
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:164
@@ -224,7 +224,7 @@ msgstr ""
 msgid "Main"
 msgstr ""
 
-#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:472
+#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:470
 msgid "Mask Passwords"
 msgstr ""
 
@@ -273,6 +273,10 @@ msgstr ""
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:188
 msgid "No authentication"
 msgstr ""
+
+#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:459
+msgid "Notice"
+msgstr "Notificação"
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:68
 msgid "Open Web Interface"
@@ -332,7 +336,7 @@ msgstr ""
 
 #: applications/luci-app-radicale3/root/usr/share/luci/menu.d/luci-app-radicale3.json:3
 msgid "Radicale3"
-msgstr ""
+msgstr "Radicale3"
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:214
 msgid "Radicale3 Users"
@@ -340,9 +344,9 @@ msgstr ""
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:200
 msgid "Realm"
-msgstr ""
+msgstr "Realm"
 
-#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:472
+#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:470
 msgid "Redact passwords in logs"
 msgstr ""
 
@@ -373,16 +377,16 @@ msgstr ""
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:171
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:221
 msgid "SHA-256"
-msgstr ""
+msgstr "SHA-256"
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:172
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:222
 msgid "SHA-512"
-msgstr ""
+msgstr "SHA-512"
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:95
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:117
 msgid "See python3-openssl documentation for available ciphers"
@@ -403,7 +407,7 @@ msgstr ""
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:368
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:444
 msgid "Storage"
-msgstr ""
+msgstr "Armazenamento"
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:379
 msgid "Storage Type"
@@ -413,8 +417,8 @@ msgstr ""
 msgid "Timeout"
 msgstr ""
 
-#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:467
-msgid "Trace on debug"
+#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:456
+msgid "Trace"
 msgstr ""
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:339
@@ -431,7 +435,7 @@ msgstr ""
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:239
 msgid "Username"
-msgstr ""
+msgstr "Nome de usuário"
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:263
 msgid "Username already exists"
@@ -450,9 +454,9 @@ msgstr ""
 msgid "Username must be at least 1 character long"
 msgstr ""
 
-#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:458
+#: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:460
 msgid "Warning"
-msgstr ""
+msgstr "Aviso"
 
 #: applications/luci-app-radicale3/htdocs/luci-static/resources/view/radicale3.js:420
 msgid "Web UI"

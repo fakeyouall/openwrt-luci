@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2025-11-08 14:48+0000\n"
+"PO-Revision-Date: 2026-10-22 07:52+0000\n"
 "Last-Translator: Monarch <monarch.scrap-0p@users.noreply.hosted.weblate.org>"
 "\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/openwrt/"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: applications/luci-app-xinetd/htdocs/luci-static/resources/view/xinetd/xinetd.js:73
 msgid "Access Control"
@@ -41,7 +41,7 @@ msgstr ""
 
 #: applications/luci-app-xinetd/htdocs/luci-static/resources/view/xinetd/xinetd.js:71
 msgid "Basic Settings"
-msgstr ""
+msgstr "一般設定"
 
 #: applications/luci-app-xinetd/htdocs/luci-static/resources/view/xinetd/xinetd.js:109
 msgid "Bind address"
@@ -155,7 +155,7 @@ msgstr ""
 #: applications/luci-app-xinetd/htdocs/luci-static/resources/view/xinetd/xinetd.js:47
 #: applications/luci-app-xinetd/htdocs/luci-static/resources/view/xinetd/xinetd.js:141
 msgid "Port"
-msgstr ""
+msgstr "ポート"
 
 #: applications/luci-app-xinetd/htdocs/luci-static/resources/view/xinetd/xinetd.js:44
 #: applications/luci-app-xinetd/htdocs/luci-static/resources/view/xinetd/xinetd.js:147
@@ -267,7 +267,7 @@ msgstr ""
 #: applications/luci-app-xinetd/htdocs/luci-static/resources/view/xinetd/xinetd.js:50
 #: applications/luci-app-xinetd/htdocs/luci-static/resources/view/xinetd/xinetd.js:102
 msgid "Type"
-msgstr ""
+msgstr "タイプ"
 
 #: applications/luci-app-xinetd/htdocs/luci-static/resources/view/xinetd/xinetd.js:102
 msgid "Type of service"

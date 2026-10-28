@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2025-12-07 21:54+0000\n"
+"PO-Revision-Date: 2026-10-18 16:40+0000\n"
 "Last-Translator: Monarch <monarch.scrap-0p@users.noreply.hosted.weblate.org>"
 "\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/openwrt/"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: applications/luci-app-openlist/htdocs/luci-static/resources/view/openlist/config.js:67
 msgid ""
@@ -34,7 +34,7 @@ msgstr ""
 #: applications/luci-app-openlist/htdocs/luci-static/resources/view/openlist/config.js:81
 #: applications/luci-app-openlist/htdocs/luci-static/resources/view/openlist/log.js:32
 msgid "Collecting data..."
-msgstr ""
+msgstr "データを収集中..."
 
 #: applications/luci-app-openlist/htdocs/luci-static/resources/view/openlist/config.js:68
 msgid "Default webUI/WebDAV login username is %s and password is %s."
@@ -106,7 +106,7 @@ msgstr "停止中"
 
 #: applications/luci-app-openlist/htdocs/luci-static/resources/view/openlist/config.js:33
 msgid "Open Web Interface"
-msgstr ""
+msgstr "Webインターフェースを開く"
 
 #: applications/luci-app-openlist/htdocs/luci-static/resources/view/openlist/config.js:34
 #: applications/luci-app-openlist/htdocs/luci-static/resources/view/openlist/config.js:36

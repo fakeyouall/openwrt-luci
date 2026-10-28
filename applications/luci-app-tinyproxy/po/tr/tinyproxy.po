@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2025-09-08 17:09+0000\n"
-"Last-Translator: Derman <mole.qnap@gmail.com>\n"
+"PO-Revision-Date: 2026-10-13 13:19+0000\n"
+"Last-Translator: Pavel Borecki <pavelbo@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationstinyproxy/tr/>\n"
 "Language: tr\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: applications/luci-app-tinyproxy/htdocs/luci-static/resources/view/tinyproxy/tinyproxy.js:291
 msgid ""
@@ -48,7 +48,7 @@ msgid ""
 "activate extended regular expressions"
 msgstr ""
 "Varsayılan olarak, filtreleme için temel POSIX ifadeleri kullanılır. "
-"Genişletilmiş normal ifadeleri etkinleştirmek için bunu etkinleştirin"
+"Genişletilmiş düzenli ifadeleri etkinleştirmek için bunu etkinleştirin"
 
 #: applications/luci-app-tinyproxy/htdocs/luci-static/resources/view/tinyproxy/tinyproxy.js:225
 msgid ""
@@ -288,6 +288,7 @@ msgid "Specifies the group name the Tinyproxy process is running as"
 msgstr "Tinyproxy işleminin çalıştığı grup adını belirtir"
 
 #: applications/luci-app-tinyproxy/htdocs/luci-static/resources/view/tinyproxy/tinyproxy.js:306
+#, fuzzy
 msgid ""
 "Specifies the upstream proxy to use for accessing the target host. Format is "
 "<code>address:port</code> or <code>socks5 address:port</code>"

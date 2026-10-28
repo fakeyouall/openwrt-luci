@@ -1,22 +1,22 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-06-16 17:38+0000\n"
-"Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
+"PO-Revision-Date: 2026-10-13 13:20+0000\n"
+"Last-Translator: Pavel Borecki <pavelbo@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationskeepalived/ta/>\n"
 "Language: ta\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.1\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/vrrp_instance.js:205
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/vrrp_instance.js:206
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/servers.js:20
 msgid ""
@@ -35,7 +35,7 @@ msgstr ""
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/vrrp_instance.js:210
 msgid "Accept"
-msgstr ""
+msgstr "ஏற்றுக்கொள்"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/vrrp_instance.js:211
 msgid "Accept packets to non address-owner"
@@ -44,7 +44,7 @@ msgstr ""
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/overview.js:27
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/status/include/35_keepalived.js:31
 msgid "Active State"
-msgstr ""
+msgstr "செயலில் உள்ள நிலை"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/peers.js:90
 msgid ""
@@ -56,12 +56,12 @@ msgstr ""
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/servers.js:34
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/servers.js:140
 msgid "Address"
-msgstr ""
+msgstr "முகவரி"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/servers.js:35
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/servers.js:141
 msgid "Address of the Server"
-msgstr ""
+msgstr "சர்வர் முகவரி"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/vrrp_instance.js:72
 msgid "Addresses add|del on change to MASTER, to BACKUP."
@@ -92,6 +92,10 @@ msgid ""
 "higher priority machine comes back online."
 msgstr ""
 
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:23
+msgid "Alternative config"
+msgstr ""
+
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/vrrp_instance.js:25
 msgid "As soon as the other machine(s) come up, an election will be held."
 msgstr ""
@@ -106,7 +110,7 @@ msgstr ""
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/vrrp_instance.js:28
 msgid "Backup"
-msgstr ""
+msgstr "காப்புப்பிரதி"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/route.js:57
 msgid "Blackhole"
@@ -134,7 +138,7 @@ msgstr ""
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/vrrp_instance.js:221
 msgid "Debug"
-msgstr ""
+msgstr "பிழை நீக்கு"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/vrrp_instance.js:222
 msgid "Debug Level"
@@ -157,7 +161,7 @@ msgstr ""
 msgid "Delay Loop"
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:59
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:67
 msgid "Delay in seconds before VRRP instances start up after"
 msgstr ""
 
@@ -165,7 +169,7 @@ msgstr ""
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/route.js:28
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/track_interface.js:22
 msgid "Device"
-msgstr ""
+msgstr "சாதனம்"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/track_interface.js:23
 msgid "Device to track"
@@ -193,7 +197,7 @@ msgstr ""
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/script.js:46
 msgid "Direction"
-msgstr ""
+msgstr "திசை"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/vrrp_instance.js:64
 msgid "Disable Preempt"
@@ -207,7 +211,7 @@ msgstr ""
 msgid "Do not send VRRP adverts over VRRP multicast group."
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:26
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:34
 msgid "EMail accounts that will receive the notification mail"
 msgstr ""
 
@@ -219,21 +223,22 @@ msgstr ""
 msgid "Email Notification"
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:31
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:39
 msgid "Email to use when processing “MAIL FROM:” SMTP command"
 msgstr ""
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/servers.js:30
 msgid "Enable"
-msgstr ""
+msgstr "இயக்கு"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/peers.js:47
 msgid "Enable Sync"
-msgstr ""
+msgstr "ஒத்திசைவை செயல்படுத்து"
 
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:15
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/servers.js:137
 msgid "Enabled"
-msgstr ""
+msgstr "இயக்கப்பட்டது"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/vrrp_instance.js:246
 msgid "Exclude Virtual IP Address"
@@ -266,7 +271,7 @@ msgstr ""
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/vrrp_instance.js:299
 msgid "GARP"
-msgstr ""
+msgstr "GARP"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/vrrp_instance.js:130
 msgid "GARP Delay"
@@ -376,7 +381,7 @@ msgstr ""
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/vrrp_instance.js:117
 msgid "IPSec"
-msgstr ""
+msgstr "IPSec"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/peers.js:52
 msgid ""
@@ -476,7 +481,7 @@ msgstr ""
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/notification.js:26
 msgid "Keepalived.user"
-msgstr ""
+msgstr "Keepalived.user"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/overview.js:31
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/status/include/35_keepalived.js:35
@@ -489,9 +494,9 @@ msgstr ""
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/ipaddress.js:49
 msgid "Link"
-msgstr ""
+msgstr "இணைப்பு"
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:20
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:28
 msgid "Link Polling"
 msgstr ""
 
@@ -515,11 +520,11 @@ msgstr ""
 msgid "Master"
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:47
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:55
 msgid "Multicast Group to use for IPv4 VRRP adverts"
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:53
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:61
 msgid "Multicast Group to use for IPv6 VRRP adverts"
 msgstr ""
 
@@ -562,11 +567,11 @@ msgstr ""
 msgid "Notification"
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:25
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:33
 msgid "Notification E-Mail"
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:30
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:38
 msgid "Notification E-Mail From"
 msgstr ""
 
@@ -614,7 +619,7 @@ msgstr ""
 msgid "Persist Timeout"
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:21
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:29
 msgid ""
 "Poll to detect media link failure using ETHTOOL, MII or ioctl interface "
 "otherwise uses netlink interface"
@@ -708,7 +713,7 @@ msgstr ""
 msgid "Route Table"
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:15
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:18
 msgid "Router ID"
 msgstr ""
 
@@ -729,11 +734,11 @@ msgid ""
 "Routes would be referenced into Static and Virtual Routes of VRRP instances"
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:40
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:48
 msgid "SMTP Connect Timeout"
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:35
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:43
 msgid "SMTP Server"
 msgstr ""
 
@@ -751,7 +756,7 @@ msgstr ""
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/ipaddress.js:46
 msgid "Scope"
-msgstr ""
+msgstr "நோக்கம்"
 
 #: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/ipaddress.js:47
 msgid "Scope of the Address"
@@ -798,7 +803,7 @@ msgstr ""
 msgid "Server to be added to the pool if all real servers are down"
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:36
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:44
 msgid "Server to use for sending mail notifications"
 msgstr ""
 
@@ -850,7 +855,7 @@ msgstr ""
 msgid "Static Routes are not moved by vrrpd, they stay on the machine."
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:16
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:19
 msgid "String identifying the machine (need not be hostname)"
 msgstr ""
 
@@ -913,7 +918,7 @@ msgstr ""
 msgid "Time in seconds to delay preempting compared"
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:41
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:49
 msgid "Timeout in seconds for SMTP stream processing"
 msgstr ""
 
@@ -1022,11 +1027,11 @@ msgstr ""
 msgid "VRRP Instance"
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:46
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:54
 msgid "VRRP Multicast Group 4"
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:52
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:60
 msgid "VRRP Multicast Group 6"
 msgstr ""
 
@@ -1039,7 +1044,7 @@ msgstr ""
 msgid "VRRP Scripts must be configured for Track Scripts"
 msgstr ""
 
-#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:58
+#: applications/luci-app-keepalived/htdocs/luci-static/resources/view/keepalived/globals.js:66
 msgid "VRRP Startup Delay"
 msgstr ""
 

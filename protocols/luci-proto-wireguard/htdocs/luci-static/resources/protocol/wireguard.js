@@ -8,6 +8,7 @@
 'require network';
 'require validation';
 'require uqr';
+'require tools.widgets as widgets';
 
 var generateKey = rpc.declare({
 	object: 'luci.wireguard',
@@ -34,7 +35,7 @@ function validateBase64(section_id, value) {
 	if (value.length == 0)
 		return true;
 
-	if (value.length != 44 || !value.match(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/))
+	if (value.length != 44 || !value.match(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/))
 		return _('Invalid Base64 key string');
 
 	if (value[43] != "=" )
@@ -158,6 +159,11 @@ return network.registerProtocol('wireguard', {
 		o.optional = true;
 
 		o = s.taboption('general', form.Flag, 'nohostroute', _('No Host Routes'), _('Optional. Do not create host routes to peers.'));
+		o.optional = true;
+
+		o = s.taboption('general', widgets.NetworkSelect, 'tunlink', _('Underlying interface'), _('Optional. Create the host routes to peers via this interface. If empty, the interface with the most specific route to the peer endpoint is used, usually the WAN. It must have a route for the address family of the peer endpoints.'));
+		o.exclude = s.section;
+		o.nocreate = true;
 		o.optional = true;
 
 		o = s.taboption('general', form.Button, '_import', _('Import configuration'), _('Imports settings from an existing WireGuard configuration file'));
@@ -737,7 +743,7 @@ return network.registerProtocol('wireguard', {
 
 				let qrm, qrs, qro;
 
-				qrm = new form.JSONMap({ config: { endpoint: hostnames[0], allowed_ips: ips, addresses: eips, dns_servers: dns } }, null, _('The generated configuration can be imported into a WireGuard client application to set up a connection towards this device.'));
+				qrm = new form.JSONMap({ config: { endpoint: hostnames[0] || '', allowed_ips: ips, addresses: eips, dns_servers: dns } }, null, _('The generated configuration can be imported into a WireGuard client application to set up a connection towards this device.'));
 				qrm.parent = parent;
 
 				qrs = qrm.section(form.NamedSection, 'config');
@@ -808,7 +814,30 @@ return network.registerProtocol('wireguard', {
 						}, [ peer_config ])
 					]);
 
+					const linkdiv = E('div', {
+						'style': 'width:100%;text-align:center'
+					}, [
+						E('button', {
+							'class': 'btn',
+							'click'(ev) {
+								ev.preventDefault();
+
+								const blob = new Blob([peer_config], { type: 'text/plain' });
+								const url = URL.createObjectURL(blob);
+								const a = document.createElement('a');
+
+								a.href = url;
+								a.download = 'wireguard-peer.conf';
+								document.body.appendChild(a);
+								a.click();
+								document.body.removeChild(a);
+								URL.revokeObjectURL(url);
+							}
+						}, [ _('Download peer configuration file') ])
+					]);
+
 					buildSVGQRCode(peer_config, node.firstChild);
+					node.appendChild(linkdiv);
 
 					return node;
 				};

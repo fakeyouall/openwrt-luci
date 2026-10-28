@@ -51,6 +51,11 @@ const css = '								\
 		white-space: nowrap;			\
 	}									\
 										\
+	/* bootstrap sets 15%; shrink */	\
+	#packages .td.cbi-section-actions {	\
+		width: auto;					\
+	}									\
+										\
 	ul.deps, ul.deps ul, ul.errors {	\
 		margin-left: 1em;				\
 	}									\
@@ -152,7 +157,7 @@ function parseList(s, dest)
 
 				switch (installed) {
 				case 'installed':
-					pkg.installed = true;
+					pkg.status = ['installed'];
 					break;
 				}
 				break;
@@ -199,6 +204,60 @@ function parseList(s, dest)
 			});
 		}
 	}
+}
+
+function parseApkQueryJson(s, dest) {
+	// Parse the raw JSON text string into an array
+	let rawData;
+	try {
+		rawData = JSON.parse(s);
+	} catch (e) {
+		console.error("Failed to parse APK JSON:", e);
+		return;
+	}
+	// Ensure rawData is actually an array before iterating
+	if (!Array.isArray(rawData))
+		return;
+	// Ensure our storage objects exist on the destination
+	dest.pkgs = dest.pkgs || {};
+	dest.providers = dest.providers || {};
+
+	// Single pass through each item in the new JSON array
+	for (const item of rawData) {
+
+		// Rename 'file-size' to 'size' while pulling out 'name'
+		const { name, 'file-size': size, ...attributes } = item;
+
+		// Construct the package object with the expected 'size' key
+		const pkg = { name, size, ...attributes };
+
+		// Add/Update the package in the main map
+		dest.pkgs[name] = pkg;
+
+		// Determine all provided names (a package always provides itself)
+		const provides = [name, ...(Array.isArray(pkg.provides) ? pkg.provides : [])];
+		for (let p of provides) {
+			p = p.split('=')[0]; // Handle cases where provides are versioned
+			dest.providers[p] = dest.providers[p] || [];
+			if (!dest.providers[p].includes(pkg))
+				dest.providers[p].push(pkg);
+		}
+	}
+}
+
+function parsePackageData(s, dest) {
+	if (!s) return;
+
+	// Check if the input is JSON (starts with [)
+	if (s.trim().charAt(0) === '[') {
+		parseApkQueryJson(s, dest);
+	} else {
+		parseList(s, dest);
+	}
+}
+
+function isPkgInstalled(pkg) {
+	return pkg && Array.isArray(pkg.status) && pkg.status.includes('installed');
 }
 
 function display(pattern)
@@ -249,7 +308,7 @@ function display(pattern)
 			const avail = packages.available.pkgs[name];
 			const inst  = packages.installed.pkgs[name];
 
-			if (!inst || !inst.installed)
+			if (!isPkgInstalled(inst))
 				continue;
 
 			if (!avail || compareVersion(avail.version, pkg.version) <= 0)
@@ -267,7 +326,7 @@ function display(pattern)
 			}, _('Upgrade…'));
 		}
 		else if (currentDisplayMode === 'installed') {
-			if (!pkg.installed)
+			if (!isPkgInstalled(pkg))
 				continue;
 
 			ver = truncateVersion(pkg.version || '-');
@@ -282,14 +341,14 @@ function display(pattern)
 
 			ver = truncateVersion(pkg.version || '-');
 
-			if (!inst || !inst.installed)
+			if (!isPkgInstalled(inst))
 				btn = E('div', {
 					'class': 'btn cbi-button-action',
 					'data-package': name,
 					'data-action': 'install',
 					'click': handleInstall
 				}, _('Install…'));
-			else if (inst.installed && inst.version != pkg.version)
+			else if (isPkgInstalled(inst) && inst.version !== pkg.version)
 				btn = E('div', {
 					'class': 'btn cbi-button-positive',
 					'data-package': name,
@@ -420,46 +479,24 @@ function orderOf(c)
 		return c.charCodeAt(0) + 256;
 }
 
-function compareVersion(val, ref)
-{
-	let vi = 0, ri = 0;
-	const isdigit = { 0:1, 1:1, 2:1, 3:1, 4:1, 5:1, 6:1, 7:1, 8:1, 9:1 };
+function compareVersion(val, ref) {
+	// 1. Split into parts by dots or any non-digit sequences
+	const vParts = (val || '').split(/[^0-9]+/);
+	const rParts = (ref || '').split(/[^0-9]+/);
 
-	val = val || '';
-	ref = ref || '';
+	// 2. Filter out empty strings caused by leading/trailing non-digits
+	const v = vParts.filter(x => x.length > 0);
+	const r = rParts.filter(x => x.length > 0);
 
-	if (val === ref)
-		return 0;
+	const maxLen = Math.max(v.length, r.length);
 
-	while (vi < val.length || ri < ref.length) {
-		let first_diff = 0;
+	for (let i = 0; i < maxLen; i++) {
+		// Convert to integer (base 10) to automatically ignore leading zeros
+		const vNum = parseInt(v[i] || 0, 10);
+		const rNum = parseInt(r[i] || 0, 10);
 
-		while ((vi < val.length && !isdigit[val.charAt(vi)]) ||
-		       (ri < ref.length && !isdigit[ref.charAt(ri)])) {
-			const vc = orderOf(val.charAt(vi)), rc = orderOf(ref.charAt(ri));
-			if (vc !== rc)
-				return vc - rc;
-
-			vi++; ri++;
-		}
-
-		while (val.charAt(vi) === '0')
-			vi++;
-
-		while (ref.charAt(ri) === '0')
-			ri++;
-
-		while (isdigit[val.charAt(vi)] && isdigit[ref.charAt(ri)]) {
-			first_diff = first_diff || (val.charCodeAt(vi) - ref.charCodeAt(ri));
-			vi++; ri++;
-		}
-
-		if (isdigit[val.charAt(vi)])
-			return 1;
-		else if (isdigit[ref.charAt(ri)])
-			return -1;
-		else if (first_diff)
-			return first_diff;
+		if (vNum > rNum) return 1;
+		if (vNum < rNum) return -1;
 	}
 
 	return 0;
@@ -485,18 +522,18 @@ function versionSatisfied(ver, ref, vop)
 		return r > 0;
 
 	case '=':
-		return r == 0;
+		return r === 0;
 	}
 
 	return false;
 }
 
-function pkgStatus(pkg, vop, ver, info)
+function pkgStatus(pkg, vop, ver, info, count)
 {
 	info.errors = info.errors || [];
 	info.install = info.install || [];
 
-	if (pkg.installed) {
+	if (isPkgInstalled(pkg)) {
 		if (vop && !versionSatisfied(pkg.version, ver, vop)) {
 			let repl = null;
 
@@ -527,7 +564,8 @@ function pkgStatus(pkg, vop, ver, info)
 	}
 	else if (!pkg.missing) {
 		if (!vop || versionSatisfied(pkg.version, ver, vop)) {
-			info.install.push(pkg);
+			if (count !== false)
+				info.install.push(pkg);
 			return E('span', { 'class': 'label' }, _('Not installed'));
 		}
 
@@ -554,6 +592,42 @@ function renderDependencyItem(dep, info, flat)
 	const ver = dep.version ? dep.version[1] : null;
 	const depends = [];
 
+	// A dependency with several providers (alternatives) is satisfied by any
+	// single one of them, so apk only ever installs one. Mirror the apk
+	// solver's provider selection - an already installed one, otherwise the
+	// available one with the highest provider-priority, otherwise the first
+	// available one - and count only that towards the size estimate and
+	// subdependencies instead of every alternative.
+	let effective = -1;
+
+	for (let i = 0; dep.pkgs && i < dep.pkgs.length; i++) {
+		if (isPkgInstalled(packages.installed.pkgs[dep.pkgs[i]])) {
+			effective = i;
+			break;
+		}
+	}
+
+	const satisfied = effective >= 0;
+
+	if (!satisfied && dep.pkgs && dep.pkgs.length) {
+		let prio = null;
+
+		for (let i = 0; i < dep.pkgs.length; i++) {
+			const p = packages.available.pkgs[dep.pkgs[i]];
+			if (!p)
+				continue;
+
+			const pprio = Number(p['provider-priority']) || 0;
+			if (prio === null || pprio > prio) {
+				effective = i;
+				prio = pprio;
+			}
+		}
+
+		if (effective < 0)
+			effective = 0;
+	}
+
 	for (let i = 0; dep.pkgs && i < dep.pkgs.length; i++) {
 		const pkg = packages.installed.pkgs[dep.pkgs[i]] ||
 		          packages.available.pkgs[dep.pkgs[i]] ||
@@ -570,12 +644,13 @@ function renderDependencyItem(dep, info, flat)
 			text += ' (~%1024mB)'.format(pkg.size);
 
 		li.appendChild(E('span', { 'data-tooltip': pkg.description },
-			[ text, ' ', pkgStatus(pkg, vop, ver, info) ]));
+			[ text, ' ', pkgStatus(pkg, vop, ver, info, !satisfied && i === effective) ]));
 
-		(pkg.depends || []).forEach(function(d) {
-			if (depends.indexOf(d) === -1)
-				depends.push(d);
-		});
+		if (i === effective)
+			(pkg.depends || []).forEach(function(d) {
+				if (depends.indexOf(d) === -1)
+					depends.push(d);
+			});
 	}
 
 	if (!li.firstChild)
@@ -605,12 +680,17 @@ function renderDependencies(depends, info, flat)
 		if (deps[i] === 'libc')
 			continue;
 
-		if (deps[i].match(/^(.+?)\s+\((<=|>=|<<|>>|<|>|=)(.+?)\)/)) {
-			dep = RegExp.$1.trim();
-			vop = RegExp.$2.trim();
-			ver = RegExp.$3.trim();
-		}
-		else {
+		// This regex handles "name", "name>=ver", and "name (>=ver)"
+		const match = deps[i].match(/^([^><=~\s]+)\s*\(?([><=~]+)?\s*([^)]+)?\)?$/);
+
+		if (match) {
+			// Destructure the match array: [full_match, name, operator, version]
+			const [, matchedDep, matchedVop, matchedVer] = match;
+			dep = (matchedDep || '').trim();
+			vop = (matchedVop || '').trim() || null;
+			ver = (matchedVer || '').trim() || null;
+		} else {
+			// Fallback if the string is just a plain name with no operators
 			dep = deps[i].trim();
 			vop = ver = null;
 		}
@@ -701,16 +781,16 @@ function handleInstall(ev)
 	const i18n_packages = [];
 	let i18n_tree;
 
-	if (luci_basename && (luci_basename[1] != 'i18n' || luci_basename[2].indexOf('base-') === 0)) {
+	if (luci_basename && (luci_basename[1] !== 'i18n' || luci_basename[2].indexOf('base-') === 0)) {
 		let i18n_filter;
 
-		if (luci_basename[1] == 'i18n') {
+		if (luci_basename[1] === 'i18n') {
 			const basenames = [];
 
 			for (let pkgname in packages.installed.pkgs) {
 				const m = pkgname.match(/^luci-([^-]+)-(.+)$/);
 
-				if (m && m[1] != 'i18n')
+				if (m && m[1] !== 'i18n')
 					basenames.push(m[2]);
 			}
 
@@ -723,7 +803,7 @@ function handleInstall(ev)
 
 		if (i18n_filter) {
 			for (let pkgname in packages.available.pkgs)
-				if (pkgname != pkg.name && pkgname.match(i18n_filter))
+				if (pkgname !== pkg.name && pkgname.match(i18n_filter))
 					i18n_packages.push(pkgname);
 
 			const i18ncache = {};
@@ -876,9 +956,9 @@ function handleConfig(ev)
                 }
 
 		for (let i = 0; i < partials.length; i++) {
-			if (partials[i].type == 'file') {
+			if (partials[i].type === 'file') {
 				if (L.hasSystemFeature('apk')) {
-					if (partials[i].name == 'repositories')
+					if (partials[i].name === 'repositories')
 						files.push(base_dir + '/' + partials[i].name);
 				} else if (partials[i].name.match(/\.conf$/)) {
 					files.push(base_dir + '/' + partials[i].name);
@@ -906,7 +986,7 @@ function handleConfig(ev)
 			body.push(E('h5', {}, '%h'.format(file)));
 			body.push(E('textarea', {
 				'name': file,
-				'rows': Math.max(Math.min(L.toArray(conf[file].match(/\n/g)).length, 10), 3)
+				'rows': Math.max(Math.min(L.toArray(conf[file].match(/\n/g)).length, 10), 3) + 1
 			}, '%h'.format(conf[file])));
 		});
 
@@ -1010,7 +1090,7 @@ function handlePkg(ev)
 
 		const argv = [ cmd ];
 
-		if (cmd == 'remove')
+		if (cmd === 'remove')
 			argv.push('--force-removal-of-dependent-packages')
 
 		if (rem && rem.checked)
@@ -1118,14 +1198,14 @@ function updateLists(data)
 
 	return (data ? Promise.resolve(data) : downloadLists()).then(function(data) {
 		const pg = document.querySelector('.cbi-progressbar');
-		const mount = L.toArray(data[0].filter(function(m) { return m.mount == '/' || m.mount == '/overlay' }))
+		const mount = L.toArray(data[0].filter(function(m) { return m.mount === '/' || m.mount === '/overlay' }))
 				.sort(function(a, b) { return a.mount > b.mount })[0] || { size: 0, free: 0 };
 
 		pg.firstElementChild.style.width = Math.floor(mount.size ? (100 / mount.size) * (mount.size - mount.free) : 100) + '%';
 		pg.setAttribute('title', _('%s used (%1024mB used of %1024mB, %1024mB free)').format(pg.firstElementChild.style.width, mount.size - mount.free, mount.size, mount.free));
 
-		parseList(data[1], packages.available);
-		parseList(data[2], packages.installed);
+		parsePackageData(data[1], packages.available);
+		parsePackageData(data[2], packages.installed);
 
 		for (let pkgname in packages.installed.pkgs)
 			if (pkgname.indexOf('luci-i18n-base-') === 0)
@@ -1167,14 +1247,14 @@ return view.extend({
 				))
 			]),
 
-			E('div', { 'class': 'controls' }, [
+			E('div', { 'class': 'cbi-section' }, E('div', { 'class': 'controls' }, [
 				E('div', {}, [
-					E('label', {}, _('Disk space') + ':'),
+					E('label', {'id': 'disk-space-label'}, _('Disk space') + ':'),
 					E('div', { 'class': 'cbi-progressbar', 'title': _('unknown') }, E('div', {}, [ '\u00a0' ]))
 				]),
 
 				E('div', {}, [
-					E('label', {}, _('Filter') + ':'),
+					E('label', {'id': 'filter-label'}, _('Filter') + ':'),
 					E('span', { 'class': 'control-group' }, [
 						E('input', { 'type': 'text', 'name': 'filter', 'placeholder': _('Type to filter…'), 'value': query, 'input': handleInput }),
 						E('button', { 'class': 'btn cbi-button', 'click': handleReset }, [ _('Clear') ])
@@ -1182,7 +1262,7 @@ return view.extend({
 				]),
 
 				E('div', {}, [
-					E('label', {}, _('Download and install package') + ':'),
+					E('label', {'id': 'download-label'}, _('Download and install package') + ':'),
 					E('span', { 'class': 'control-group' }, [
 						E('input', { 'type': 'text', 'name': 'install', 'placeholder': _('Package name or URL…'), 'keydown': function(ev) { if (ev.keyCode === 13) handleManualInstall(ev) }, 'disabled': isReadonlyView }),
 						E('button', { 'class': 'btn cbi-button cbi-button-action', 'click': handleManualInstall, 'disabled': isReadonlyView }, [ _('OK') ])
@@ -1190,7 +1270,7 @@ return view.extend({
 				]),
 
 				E('div', {}, [
-					E('label', {}, _('Actions') + ':'), ' ',
+					E('label', {'id': 'action-label'}, _('Actions') + ':'), ' ',
 					E('span', { 'class': 'control-group' }, [
 						E('button', { 'class': 'btn cbi-button-positive', 'data-command': 'update', 'click': handlePkg, 'disabled': isReadonlyView }, [ _('Update lists…') ]), ' ',
 						E('button', { 'class': 'btn cbi-button-action', 'click': handleUpload, 'disabled': isReadonlyView }, [ _('Upload Package…') ]), ' ',
@@ -1242,7 +1322,7 @@ return view.extend({
 						])
 					])
 				])
-			]),
+			])),
 
 			E('ul', { 'class': 'cbi-tabmenu mode' }, [
 				E('li', { 'data-mode': 'available', 'class': 'available cbi-tab', 'click': handleMode }, E('a', { 'href': '#' }, [ _('Available') ])),
@@ -1250,6 +1330,7 @@ return view.extend({
 				E('li', { 'data-mode': 'updates', 'class': 'installed cbi-tab-disabled', 'click': handleMode }, E('a', { 'href': '#' }, [ _('Updates') ]))
 			]),
 
+			E('div', { 'class': 'cbi-section' }, [
 			E('div', { 'class': 'controls', 'style': 'display:none' }, [
 				E('div', { 'class': 'pager center' }, [
 					E('button', { 'class': 'btn cbi-button-neutral prev', 'aria-label': _('Previous page'), 'click': handlePage }, [ '«' ]),
@@ -1274,6 +1355,7 @@ return view.extend({
 					E('div', { 'class': 'text' }, [ 'dummy' ]),
 					E('button', { 'class': 'btn cbi-button-neutral next', 'aria-label': _('Next page'), 'click': handlePage }, [ '»' ])
 				])
+			])
 			])
 		]);
 

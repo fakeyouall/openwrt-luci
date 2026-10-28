@@ -159,6 +159,41 @@ const UIElement = baseclass.extend(/** @lends LuCI.ui.AbstractElement.prototype 
 	},
 
 	/**
+	 * Mark the widget as invalid with the given message.
+	 *
+	 * Used for constraints that are only checked when the form is saved, e.g.
+	 * an empty required value. The marker is removed as soon as the user
+	 * edits the widget.
+	 *
+	 * @instance
+	 * @memberof LuCI.ui.AbstractElement
+	 * @param {string} message
+	 * The message shown as error tooltip.
+	 */
+	setInvalid(message) {
+		if (!this.node)
+			return;
+
+		// Themes only draw a border on the input itself, not on the widget container.
+		const field = this.node.querySelector('.add-item input, input:not([type="hidden"]), textarea, select') ?? this.node;
+		const events = [ 'widget-update', 'input' ];
+
+		const clear = () => {
+			field.classList.remove('cbi-input-invalid');
+			field.removeAttribute('data-tooltip');
+			field.removeAttribute('data-tooltip-style');
+			events.forEach(ev => this.node.removeEventListener(ev, clear));
+		};
+
+		clear();
+
+		field.classList.add('cbi-input-invalid');
+		field.setAttribute('data-tooltip', message);
+		field.setAttribute('data-tooltip-style', 'error');
+		events.forEach(ev => this.node.addEventListener(ev, clear));
+	},
+
+	/**
 	 * Returns the current validation error
 	 *
 	 * @instance
@@ -527,7 +562,7 @@ const UITextarea = UIElement.extend(/** @lends LuCI.ui.Textarea.prototype */ {
 			'placeholder': this.options.placeholder,
 			'style': style,
 			'cols': this.options.cols,
-			'rows': this.options.rows,
+			'rows': this.options.rows ? this.options.rows + 1 : this.options.rows,
 			'wrap': this.options.wrap ? 'soft' : 'off'
 		}, [ value ]));
 
@@ -1059,7 +1094,7 @@ const UIDropdown = UIElement.extend(/** @lends LuCI.ui.Dropdown.prototype */ {
 	 * expression. Only applicable when `create` is `true`.
 	 */
 	__init__(value, choices, options) {
-		if (typeof(choices) != 'object')
+		if (!L.isObject(choices))
 			choices = {};
 
 		if (!Array.isArray(value))
@@ -1265,24 +1300,18 @@ const UIDropdown = UIElement.extend(/** @lends LuCI.ui.Dropdown.prototype */ {
 	 * @returns {document}
 	 */
 	getScrollParent(element) {
-		let parent = element;
-		let style = getComputedStyle(element);
-		const excludeStaticParent = (style.position === 'absolute');
+		let parent = element.parentElement;
 
-		if (style.position === 'fixed')
-			return document.body;
-
-		while ((parent = parent.parentElement) != null) {
-			style = getComputedStyle(parent);
-
-			if (excludeStaticParent && style.position === 'static')
-				continue;
+		while (parent) {
+			const style = getComputedStyle(parent);
 
 			if (/(auto|scroll)/.test(style.overflow + style.overflowY + style.overflowX))
 				return parent;
+
+			parent = parent.parentElement;
 		}
 
-		return document.body;
+		return document.scrollingElement || document.documentElement;
 	},
 
 
@@ -1293,6 +1322,11 @@ const UIDropdown = UIElement.extend(/** @lends LuCI.ui.Dropdown.prototype */ {
 	openDropdown(sb) {
 		const ul = sb.querySelector('ul');
 		const li = ul.querySelectorAll('li');
+
+		/* nothing to select, e.g. no choices and no create input */
+		if (!li.length)
+			return;
+
 		const fl = findParent(sb, '.cbi-value-field');
 		const sel = ul.querySelector('[selected]');
 		const rect = sb.getBoundingClientRect();
@@ -1349,13 +1383,11 @@ const UIDropdown = UIElement.extend(/** @lends LuCI.ui.Dropdown.prototype */ {
 
 			window.requestAnimationFrame(() => {
 				const containerRect = scrollParent.getBoundingClientRect();
-				const itemHeight = li[Math.max(0, li.length - 2)].getBoundingClientRect().height;
-				let fullHeight = 0;
+				const itemHeight = li.length ? li[Math.max(0, li.length - 2)].getBoundingClientRect().height : 0;
+				const visibleItems = (items == -1 ? li.length : items);
+				const fullHeight = itemHeight * visibleItems;
 				const spaceAbove = rect.top - containerRect.top;
 				const spaceBelow = containerRect.bottom - rect.bottom;
-
-				for (let i = 0; i < (items == -1 ? li.length : items); i++)
-					fullHeight += li[i].getBoundingClientRect().height;
 
 				if (fullHeight <= spaceBelow) {
 					ul.style.top = `${rect.height}px`;
@@ -1597,7 +1629,7 @@ const UIDropdown = UIElement.extend(/** @lends LuCI.ui.Dropdown.prototype */ {
 	/**
 	 * @private
 	 * @param {Node} sb
-	 * @param {string[]} values
+	 * @param {Object<string, boolean>} values
 	 */
 	setValues(sb, values) {
 		const ul = sb.querySelector('ul');
@@ -1927,7 +1959,7 @@ const UIDropdown = UIElement.extend(/** @lends LuCI.ui.Dropdown.prototype */ {
 					const li = active.nextElementSibling;
 					this.setFocus(sb, li);
 					if (this.options.create && li == li.parentNode.lastElementChild) {
-						const input = li.querySelector('input:not([type="hidden"]):not([type="checkbox"]');
+						const input = li.querySelector('input:not([type="hidden"]):not([type="checkbox"])');
 						if (input) input.focus();
 					}
 					ev.preventDefault();
@@ -3461,8 +3493,7 @@ const UIFileUpload = UIElement.extend(/** @lends LuCI.ui.FileUpload.prototype */
 		const rows = E('ul');
 
 		list.sort((a, b) => {
-			return L.naturalCompare(a.type == 'directory', b.type == 'directory') ||
-				   L.naturalCompare(a.name, b.name);
+			return (b.type == 'directory') - (a.type == 'directory') || L.naturalCompare(a.name, b.name);
 		});
 
 		for (let i = 0; i < list.length; i++) {
@@ -4348,7 +4379,7 @@ const UI = baseclass.extend(/** @lends LuCI.ui.prototype */ {
 	 *
 	 * @see LuCI.dom.content
 	 *
-	 * @param {string} [title]
+	 * @param {?string} [title]
 	 * The title of the notification banner. If `null`, no title element
 	 * will be rendered.
 	 *
@@ -4452,7 +4483,7 @@ const UI = baseclass.extend(/** @lends LuCI.ui.prototype */ {
 					if (element.parentNode) {
 						element.parentNode.removeChild(element);
 					}
-				});
+				}, 0);
 			}
 		}
 
@@ -4809,7 +4840,7 @@ const UI = baseclass.extend(/** @lends LuCI.ui.prototype */ {
 		getActiveTabId(pane) {
 			const path = this.getPathForPane(pane);
 			const p = +(this.getActiveTabState().paths[path]);
-			return p ?? 0;
+			return isNaN(p) ? 0 : p;
 		},
 
 		/**
@@ -4924,12 +4955,16 @@ const UI = baseclass.extend(/** @lends LuCI.ui.prototype */ {
 	 * An optional DOM text node whose content text is set to the progress
 	 * percentage value during file upload.
 	 *
+	 * @param {string} [info]
+	 * An optional string that carries additional information that should
+	 * be shown under the progressbar.
+	 *
 	 * @returns {Promise<LuCI.ui.FileUploadReply>}
 	 * Returns a promise resolving to a file upload status object on success
 	 * or rejecting with an error in case the upload failed or has been
 	 * cancelled by the user.
 	 */
-	uploadFile(path, progressStatusNode) {
+	uploadFile(path, progressStatusNode, info) {
 		return new Promise((resolveFn, rejectFn) => {
 			UI.prototype.showModal(_('Uploading file…'), [
 				E('p', _('Please select the file to upload.')),
@@ -4985,7 +5020,11 @@ const UI = baseclass.extend(/** @lends LuCI.ui.prototype */ {
 
 								const progress = E('div', { 'class': 'cbi-progressbar', 'title': '0%' }, E('div', { 'style': 'width:0' }));
 
-								UI.prototype.showModal(_('Uploading file…'), [ progress ]);
+								let infoNode;
+								if (info)
+									infoNode = E('p', _('%s').format(info));
+
+								UI.prototype.showModal(_('Uploading file…'), [ progress, infoNode ]);
 
 								const data = new FormData();
 
@@ -5056,11 +5095,26 @@ const UI = baseclass.extend(/** @lends LuCI.ui.prototype */ {
 
 		return new Promise((resolveFn, rejectFn) => {
 			const img = new Image();
+			let timer = window.setTimeout(() => {
+				timer = null;
+				rejectFn();
+			}, 1000);
 
-			img.onload = resolveFn;
-			img.onerror = rejectFn;
+			img.onload = ev => {
+				if (timer !== null)
+					window.clearTimeout(timer);
+				timer = null;
+				img.onload = img.onerror = null;
+				resolveFn(ev);
+			};
 
-			window.setTimeout(rejectFn, 1000);
+			img.onerror = ev => {
+				if (timer !== null)
+					window.clearTimeout(timer);
+				timer = null;
+				img.onload = img.onerror = null;
+				rejectFn(ev);
+			};
 
 			img.src = target;
 		});
@@ -5701,7 +5755,7 @@ const UI = baseclass.extend(/** @lends LuCI.ui.prototype */ {
 		const className = 'view.%s'.format(path.replace(/\//g, '.'));
 
 		return L.require(className).then(view => {
-			if (!(view instanceof View))
+			if (typeof view?.render !== 'function')
 				throw new TypeError('Loaded class %s is not a descendant of View'.format(className));
 
 			return view;
